@@ -92,6 +92,34 @@ describe('operations', function () {
     expect(url).toBe('http://localhost/path?intArray=3|4|5');
   });
 
+  it('should generate a url with steps', function(){
+    var parameters = [
+      {
+        in: "query",
+        name: "steps",
+        type: "array",
+        isHash: true,
+        hashKey: "type",
+        collectionFormat: "brackets",
+        items: {
+          type: "object"
+        }
+      }
+    ]
+
+    var op = new Operation({}, 'http', 'test', 'get', '/prices', { parameters: parameters },
+                                   {}, {}, new auth.SwaggerAuthorizations());
+
+    var firstStep  = { order: "0", type: "drive_to" };
+    var secondStep = { order: "1", type: "drive_to" };
+
+    var url = op.urlify({
+      "steps": [firstStep, secondStep],
+    });
+
+    expect(url).toBe("http://localhost/prices?steps[][order]=0&steps[][type]=drive_to&steps[][order]=1&steps[][type]=drive_to")
+  });
+
   it('should generate a url with queryparams array, tabs', function () {
     var parameters = [
       {
@@ -370,4 +398,3 @@ describe('operations', function () {
     op.execute({}, opts);
   });
 });
-

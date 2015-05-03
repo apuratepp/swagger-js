@@ -26,6 +26,7 @@ if (!String.prototype.endsWith) {
   };
 };
 
+// lolololo
 module.exports = SwaggerClient;
 
 SwaggerClient.ApiKeyAuthorization = auth.ApiKeyAuthorization;
